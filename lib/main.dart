@@ -127,14 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
                title: new Text('Saved Suggestions'),
              ),
              body: WordRandom()
-//             body: Center(
-//               child: FlatButton(
-//                 child: Text('POP'),
-//                 onPressed: () {
-//                   Navigator.pop(context);
-//                 },
-//               ),
-//             ),
            );
          }
      )
