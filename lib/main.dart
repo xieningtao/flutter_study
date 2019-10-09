@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' show json;
 import 'wordList.dart';
+import 'package:common_utils/common_utils.dart';
+import 'package:logger/logger.dart';
+
 void main() => runApp(MyApp());
 
+var logger = Logger(
+  printer: PrettyPrinter(),
+);
+
 class MyApp extends StatelessWidget {
+  MyApp(){
+    LogUtil.init(isDebug: true);
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -18,7 +30,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
       ),
       home: MyHomePage(title: 'home'),
     );
@@ -44,7 +56,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final String TAG = "###Home###";
   int _counter = 0;
+  String _tips = "";
 
   void _incrementCounter() {
     setState(() {
@@ -69,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(child:Text(widget.title,)),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -93,43 +107,55 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
+              style: TextStyle(color: Colors.red,fontSize: 14),
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.display1,
             ),
             RaisedButton(onPressed:_toWordList,textColor: Colors.blue,child: Text(
               'to next',
-            ))
+            )),
+            Container(
+                padding: EdgeInsets.all(10),
+                color: Colors.lightBlue,
+                margin: EdgeInsetsDirectional.only(start: 20,top: 20),
+                child:OutlineButton(onPressed: loadData,child: Text("change tips"))),
+            Text(
+              '$_tips',
+              style: TextStyle(color: Colors.yellow),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        backgroundColor: Colors.red,
+        child: Text("C",style: TextStyle(color: Colors.white),),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  void _changeTips(){
+    setState(() {
+      this._tips=_tips + "change me";
+    });
+  }
+
+  loadData() async {
+    String dataURL = "https://jsonplaceholder.typicode.com/posts";
+    http.Response response = await http.get(dataURL);
+    var result = json.decode(response.body);
+//    LogUtil.v(result.toString(),tag:TAG);
+//  print("result: "+result.toString());
+  logger.v(result.toString());
+  }
+
   void _toWordList(){
     Navigator.push(context, PageRouteBuilder(
     opaque: false,
     pageBuilder: (BuildContext context, _, __) {
       return WordRandom();
     }));
-  }
-   void _toNext(){
-     Navigator.push(context,
-         new MaterialPageRoute(
-         builder: (context){
-           return new Scaffold(
-             appBar: new AppBar(
-               title: new Text('Saved Suggestions'),
-             ),
-             body: WordRandom()
-           );
-         }
-     )
-     );
   }
 }
