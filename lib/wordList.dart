@@ -47,6 +47,7 @@ class WordState extends State<WordRandom>{
               .divideTiles(
             context: context,
             tiles: tiles,
+            color: Colors.yellow
           )
               .toList();
 
@@ -62,6 +63,7 @@ class WordState extends State<WordRandom>{
   }
 
   Widget _buildSuggestions() {
+    _suggestions.addAll(generateWordPairs().take(10));
     return new ListView.builder(
         padding: const EdgeInsets.all(16.0),
         // 对于每个建议的单词对都会调用一次itemBuilder，然后将单词对添加到ListTile行中
@@ -76,12 +78,13 @@ class WordState extends State<WordRandom>{
           // 时，结果为0, 1, 1, 2, 2， 这可以计算出ListView中减去分隔线后的实际单词对数量
           final index = i ~/ 2;
           // 如果是建议列表中最后一个单词对
-          if (index >= _suggestions.length) {
-            // ...接着再生成10个单词对，然后添加到建议列表
-            _suggestions.addAll(generateWordPairs().take(10));
-          }
+//          if (index >= _suggestions.length) {
+//            // ...接着再生成10个单词对，然后添加到建议列表
+//            _suggestions.addAll(generateWordPairs().take(10));
+//          }
           return _buildRow(_suggestions[index]);
-        }
+        },
+      itemCount: _suggestions.length,
     );
   }
 
