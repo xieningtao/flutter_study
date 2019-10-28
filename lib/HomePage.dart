@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:futter_study/MsgEvent.dart';
+import 'package:futter_study/main.dart';
 import 'package:futter_study/wordList.dart';
 
 import 'PageOne.dart';
@@ -21,6 +22,8 @@ class BottomHomeState extends State<BottomHomePage> {
 
 
   void changeTab(int index) {
+    logger.i("changeTab");
+    loggerNoStack.i("############change###########");
     this.setState(() {
       barIndex = index;
     });
