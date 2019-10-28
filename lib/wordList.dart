@@ -1,5 +1,8 @@
 import 'package:english_words/english_words.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:futter_study/MsgEvent.dart';
+import 'package:futter_study/common/CommonGlobal.dart';
 
 class WordRandom extends StatefulWidget{
   @override
@@ -17,16 +20,24 @@ class WordState extends State<WordRandom>{
   final _saved = new Set<WordPair>();
 
   @override
+  void initState() {
+    super.initState();
+    CommonGlobal.evenBus.on<ActionEvent>().listen((event) =>{
+      this._pushSaved()
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Startup Name Generator'),
-        actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
-        ],
-      ),
       body: _buildSuggestions(),
     );
+  }
+
+  @override
+  void dispose() {
+    CommonGlobal.evenBus.on<ActionEvent>().listen(null);
+    super.dispose();
+
   }
 
   void _pushSaved(){

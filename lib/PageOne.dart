@@ -1,46 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' show json;
-import 'HomePage.dart';
-import 'TabbedSample.dart';
-import 'wordList.dart';
-
-import 'package:common_utils/common_utils.dart';
-import 'package:logger/logger.dart';
-
-void main() => runApp(MyApp());
-
-var logger = Logger(
-  printer: PrettyPrinter(),
-);
-
-class MyApp extends StatelessWidget {
-  MyApp(){
-    LogUtil.init(isDebug: true);
-  }
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'flutter study',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.lightBlue,
-      ),
-//      home: MyHomePage(title: 'home'),
-//      home: TabbedAppBarSample(),
-      home: BottomHomePage(),
-    );
-  }
-}
+import 'package:flutter/widgets.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -85,11 +44,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Center(child:Text(widget.title,)),
-      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -112,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               'You have pushed the button this many times:',
-              style: TextStyle(color: Colors.red,fontSize: 14),
+              style: TextStyle(color: Colors.red, fontSize: 14),
             ),
             Text(
               '$_counter',
@@ -121,24 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   .textTheme
                   .display1,
             ),
-            RaisedButton(onPressed:_toWordList,textColor: Colors.blue,child: Text(
-              'to next',
-            )),
-            Container(
-                padding: EdgeInsets.all(10),
-                color: Colors.lightBlue,
-                margin: EdgeInsetsDirectional.only(start: 20,top: 20),
-                child:OutlineButton(onPressed: _loadData ,child: Text("change tips"))),
             Text(
               '$_tips',
               style: TextStyle(color: Colors.yellow),
             ),
-            RaisedButton(
-                onPressed: _toWordList,
-                textColor: Colors.blue,
-                child: Text(
-                  'to next',
-                ))
           ],
         ),
       ),
@@ -146,43 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         backgroundColor: Colors.red,
-        child: Text("C",style: TextStyle(color: Colors.white),),
+        child: Text("C", style: TextStyle(color: Colors.white),),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-
-  void _toWordList() {
-    Navigator.push(
-        context,
-        PageRouteBuilder(
-            opaque: false,
-            pageBuilder: (BuildContext context, _, __) {
-              return WordRandom();
-            }));
-  }
-  void _changeTips(){
-    setState(() {
-      this._tips=_tips + "change me";
-    });
-  }
-
-  void _loadData() async {
-    String dataURL = "https://jsonplaceholder.typicode.com/posts";
-    http.Response response = await http.get(dataURL);
-    var result = json.decode(response.body);
-//    LogUtil.v(result.toString(),tag:TAG);
-//  print("result: "+result.toString());
-  logger.v(result.toString());
-  }
-
-
-  void _toNext() {
-    Navigator.push(context, new MaterialPageRoute(builder: (context) {
-      return new Scaffold(
-          appBar: new AppBar(
-            title: new Text('Saved Suggestions'),
-          ),
-          body: WordRandom());
-    }));
   }
 }
