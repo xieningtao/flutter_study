@@ -4,7 +4,7 @@ import 'package:futter_study/MsgEvent.dart';
 import 'package:futter_study/main.dart';
 import 'package:futter_study/wordList.dart';
 
-import 'PageOne.dart';
+import 'Recommend.dart';
 import 'common/CommonGlobal.dart';
 
 class BottomHomePage extends StatefulWidget {
@@ -29,7 +29,7 @@ class BottomHomeState extends State<BottomHomePage> {
     });
   }
 
-  List<Widget> pages = [ MyHomePage(title: "pageOne"),
+  List<Widget> pages = [ RecommendPage(title: "pageOne"),
     WordRandom(),
     Text("5555")];
 
@@ -37,7 +37,7 @@ class BottomHomeState extends State<BottomHomePage> {
   Widget build(BuildContext context) {
     List<BottomNavigationBarItem> barItems = new List();
     barItems.add(new BottomNavigationBarItem(
-        icon: new Icon(Icons.access_alarm), title: Text("QQ")));
+        icon: new Icon(Icons.access_alarm), title: Text("推荐")));
     barItems.add(new BottomNavigationBarItem(
         icon: new Icon(Icons.accessibility), title: Text("7777")));
     barItems.add(new BottomNavigationBarItem(
