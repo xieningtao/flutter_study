@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show json;
 import 'wordList.dart';
@@ -55,10 +56,31 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
   final String TAG = "###Home###";
   int _counter = 0;
   String _tips = "";
+
+  static const messageChannel = const BasicMessageChannel('flutter_and_native_message', StandardMessageCodec());
+  static const methodChannel = const MethodChannel('flutter_and_native_method');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    messageChannel.setMessageHandler((result)async{
+
+    });
+  }
+
+
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   void _incrementCounter() {
     setState(() {
