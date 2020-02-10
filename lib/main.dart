@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+=======
+>>>>>>> 80506a6d3efb5261074dcf58c5f2cabd384bafbc
 import 'dart:convert' show json;
+import 'HomePage.dart';
+import 'TabbedSample.dart';
 import 'wordList.dart';
+
 import 'package:common_utils/common_utils.dart';
 import 'package:logger/logger.dart';
 
@@ -10,6 +16,9 @@ void main() => runApp(MyApp());
 
 var logger = Logger(
   printer: PrettyPrinter(),
+);
+var loggerNoStack = Logger(
+  printer: PrettyPrinter(methodCount: 0),
 );
 
 class MyApp extends StatelessWidget {
@@ -33,6 +42,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.lightBlue,
       ),
+<<<<<<< HEAD
       home: MyHomePage(title: 'home'),
     );
   }
@@ -155,29 +165,11 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
         backgroundColor: Colors.red,
         child: Text("C",style: TextStyle(color: Colors.white),),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+=======
+//      home: MyHomePage(title: 'home'),
+//      home: TabbedAppBarSample(),
+      home: BottomHomePage(),
+>>>>>>> 80506a6d3efb5261074dcf58c5f2cabd384bafbc
     );
-  }
-
-  void _changeTips(){
-    setState(() {
-      this._tips=_tips + "change me";
-    });
-  }
-
-  loadData() async {
-    String dataURL = "https://jsonplaceholder.typicode.com/posts";
-    http.Response response = await http.get(dataURL);
-    var result = json.decode(response.body);
-//    LogUtil.v(result.toString(),tag:TAG);
-//  print("result: "+result.toString());
-  logger.v(result.toString());
-  }
-
-  void _toWordList(){
-    Navigator.push(context, PageRouteBuilder(
-    opaque: false,
-    pageBuilder: (BuildContext context, _, __) {
-      return WordRandom();
-    }));
   }
 }
